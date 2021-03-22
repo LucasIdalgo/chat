@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -155,8 +156,9 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
                         dialog.dismiss();
 
                         try {
-
-                            JSONArray thread = new JSONArray(response);
+                            String  str = new String(response.getBytes("ISO-8859-1"), "UTF-8");
+                            JSONArray thread = new JSONArray(str);
+                            //JSONArray thread = new JSONArray(response);
                             for (int i = 0; i < thread.length(); i++) {
                                 JSONObject obj = thread.getJSONObject(i);
                                 int userId = obj.getInt("users_id");
@@ -171,7 +173,7 @@ public class ChatRoomActivity extends AppCompatActivity implements View.OnClickL
                             recyclerView.setAdapter(adapter);
                             scrollToBottom();
 
-                        } catch (JSONException e) {
+                        } catch (JSONException | UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
                     }
